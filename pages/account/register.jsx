@@ -6,6 +6,9 @@ import * as Yup from 'yup';
 import { Link } from 'components';
 import { Layout } from 'components/account';
 import { userService, alertService } from 'services';
+import {mretsService} from "../../services/mrets.service";
+
+import usersRepo from'../../helpers/api/users-repo'
 
 export default Register;
 
@@ -30,13 +33,14 @@ function Register() {
     const { register, handleSubmit, formState } = useForm(formOptions);
     const { errors } = formState;
 
-    function onSubmit(user) {
-        return userService.register(user)
+    async function onSubmit(user) {
+         userService.register(user)
             .then(() => {
                 alertService.success('Registration successful', { keepAfterRouteChange: true });
-                router.push('login');
+                usersRepo.create(user);
             })
             .catch(alertService.error);
+
     }
 
     return (

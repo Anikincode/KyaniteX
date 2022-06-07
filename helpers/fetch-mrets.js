@@ -1,10 +1,10 @@
 import getConfig from 'next/config';
 
-import { userService } from 'services';
+import {mretsService, userService} from 'services';
 
-const { publicRuntimeConfig } = getConfig();
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
-export const fetchWrapper = {
+export const fetchMrets = {
     get,
     post,
     put,
@@ -20,10 +20,10 @@ function get(url) {
 }
 
 function post(url, body) {
+    const secret = serverRuntimeConfig.mret_secret;
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...authHeader(url) },
-        credentials: 'include',
+        headers: { 'Content-Type': 'application/vnd.api+json','Accept':'application/vnd.api+json','X-Api-Key':'rkQVa8X1ra3jkF6opuNz7VVK', ...authHeader(url) },
         body: JSON.stringify(body)
     };
     return fetch(url, requestOptions).then(handleResponse);
@@ -32,10 +32,10 @@ function post(url, body) {
 function put(url, body) {
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...authHeader(url) },
+        headers: { 'Content-Type': 'application/vnd.api+json', ...authHeader(url) },
         body: JSON.stringify(body)
     };
-    return fetch(url, requestOptions).then(handleResponse);    
+    return fetch(url, requestOptions).then(handleResponse);
 }
 
 // prefixed with underscored because delete is a reserved word in javascript
@@ -52,10 +52,11 @@ function _delete(url) {
 function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
     const user = userService.userValue;
-    const isLoggedIn = user && user.token;
-    const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
+    const token = serverRuntimeConfig.mret_secret2;
+    const isLoggedIn = user && token;
+    const isApiUrl = url.startsWith(publicRuntimeConfig.mretUrl);
     if (isLoggedIn && isApiUrl) {
-        return { Authorization: `Bearer ${user.token}` };
+        return { Authorization: `Bearer ${token}` };
     } else {
         return {};
     }
@@ -65,11 +66,11 @@ function authHeader(url) {
 function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
-        
+
         if (!response.ok) {
-            if ([401, 403].includes(response.status) && userService.userValue) {
+            if ([401, 403].includes(response.status) && mretsService.mretValue) {
                 // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-                userService.logout();
+                mretsService.logout();
             }
 
             const error = (data && data.message) || response.statusText;

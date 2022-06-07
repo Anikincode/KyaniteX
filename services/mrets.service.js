@@ -2,42 +2,52 @@ import { BehaviorSubject } from 'rxjs';
 import getConfig from 'next/config';
 import Router from 'next/router';
 
-import { fetchWrapper } from 'helpers';
+import { fetchMrets } from 'helpers/fetch-mrets';
 
 const { publicRuntimeConfig } = getConfig();
-const baseUrl = `${publicRuntimeConfig.apiUrl}/users`;
-const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
+const mretUrl = `${publicRuntimeConfig.mretUrl}/v1/public/rec/accounts`;
+const mretSubject = new BehaviorSubject(process.browser);
 
-export const userService = {
-    user: userSubject.asObservable(),
-    get userValue () { return userSubject.value },
-    login,
-    logout,
-    register,
-    getAll,
-    getById,
-    update,
-    delete: _delete
+export const mretsService = {
+    mret: mretSubject.asObservable(),
+        get mretValue () { return mretSubject.value },
+    createAccount,
+    logout
 };
 
-function login(username, password) {
-    return fetchWrapper.post(`${baseUrl}/authenticate`, { username, password })
-        .then(user => {
+function createAccount(user) {
+    return fetchMrets.post(`${mretUrl}`, {
+        "data": {
+            "type": "accounts",
+            "attributes": {
+                "account_type": "active",
+                "name": 'TEST 1 VEM'
+            }
+        }
+    })
+        .then(account => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
-            userSubject.next(user);
-            localStorage.setItem('user', JSON.stringify(user));
-
-            return user;
+            mretSubject.next(account)
+            localStorage.setItem('mret_account', JSON.stringify(account));
+            return account;
         });
 }
+/*
+function getAccount() {
+    const account = localStorage.getItem('mret_account');
+    const accountId = account.data.id;
+    return fetchMrets.get(`${mretUrl}/${accountId}`);
+}
+*/
 
 function logout() {
     // remove user from local storage, publish null to user subscribers and redirect to login page
     localStorage.removeItem('user');
-    userSubject.next(null);
+    mretSubject.next(null);
     Router.push('/account/login');
 }
 
+/*
 function register(user) {
     return fetchWrapper.post(`${baseUrl}/register`, user);
 }
@@ -71,3 +81,4 @@ function _delete(id) {
     return fetchWrapper.delete(`${baseUrl}/${id}`);
 }
 
+ */

@@ -1,3 +1,6 @@
+import {mretsService} from "../../services/mrets.service";
+import conn from '../../helpers/api/db'
+
 const fs = require('fs');
 
 // users in JSON file for simplicity, store in a db for production applications
@@ -12,17 +15,30 @@ export const usersRepo = {
     delete: _delete
 };
 
-function create(user) {
+async function create(user) {
     // generate new user id
     user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
 
     // set date created and updated
     user.dateCreated = new Date().toISOString();
     user.dateUpdated = new Date().toISOString();
-
+//    user.mretAccountId = mretsService.getAccount(user.id);
     // add and save user
     users.push(user);
     saveData();
+    try {
+        console.log("User First Name:", user.firstName)
+        conn.query(
+            "INSERT INTO users(firstName, lastName, username, hash, id, dateCreated, dateUpdated)VALUES('Nicholas', 'Goorwah', 'nick@dabc.com', '$2a$10$HCSgIoaqlIz1oYv5yVRhOOCvoXIdNbfxlaaBmNMGl37pOBOhxDudm', 123454322, '2022-06-07T13:33:24.922Z', '2022-06-07T13:33:24.922Z')",
+            (err, res) => {
+                console.log(err, res);
+                conn.end();
+            }
+        );
+        console.log( "Result",result );
+    } catch ( error ) {
+        console.log( error );
+    }
 }
 
 function update(id, params) {
