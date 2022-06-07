@@ -8,7 +8,7 @@ import { Layout } from 'components/account';
 import { userService, alertService } from 'services';
 import {mretsService} from "../../services/mrets.service";
 
-import usersRepo from'../../helpers/api/users-repo'
+// import usersRepo from'../../helpers/api/users-repo'
 
 export default Register;
 
@@ -37,7 +37,7 @@ function Register() {
          userService.register(user)
             .then(() => {
                 alertService.success('Registration successful', { keepAfterRouteChange: true });
-                usersRepo.create(user);
+                // usersRepo.create(user);
             })
             .catch(alertService.error);
 

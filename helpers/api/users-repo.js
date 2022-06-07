@@ -26,7 +26,7 @@ async function create(user) {
     // add and save user
     users.push(user);
     saveData();
-    try {
+   /* try {
         console.log("User First Name:", user.firstName)
         conn.query(
             "INSERT INTO users(firstName, lastName, username, hash, id, dateCreated, dateUpdated)VALUES('Nicholas', 'Goorwah', 'nick@dabc.com', '$2a$10$HCSgIoaqlIz1oYv5yVRhOOCvoXIdNbfxlaaBmNMGl37pOBOhxDudm', 123454322, '2022-06-07T13:33:24.922Z', '2022-06-07T13:33:24.922Z')",
@@ -39,6 +39,7 @@ async function create(user) {
     } catch ( error ) {
         console.log( error );
     }
+    */
 }
 
 function update(id, params) {
