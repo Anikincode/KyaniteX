@@ -1,5 +1,6 @@
 import {mretsService} from "../../services/mrets.service";
-import conn from '../../helpers/api/db'
+//import {client} from "../../helpers/api/db";
+import pg from "pg";
 
 const fs = require('fs');
 
@@ -26,10 +27,13 @@ async function create(user) {
     // add and save user
     users.push(user);
     saveData();
-   /* try {
-        console.log("User First Name:", user.firstName)
-        conn.query(
-            "INSERT INTO users(firstName, lastName, username, hash, id, dateCreated, dateUpdated)VALUES('Nicholas', 'Goorwah', 'nick@dabc.com', '$2a$10$HCSgIoaqlIz1oYv5yVRhOOCvoXIdNbfxlaaBmNMGl37pOBOhxDudm', 123454322, '2022-06-07T13:33:24.922Z', '2022-06-07T13:33:24.922Z')",
+
+    var conString = "postgres://postgres:postgres@localhost:5432/kyanitex";
+    var client = new pg.Client(conString);
+    client.connect();
+    try {
+        client.query(
+            "INSERT INTO users(firstname, lastname, username, hash, id, datecreated, dateupdated)VALUES(" + "'"+ user.firstName + "','" + user.lastName +"','"+ user.username +"','"+ user.hash +"' ,'"+ user.id +"','"+ user.dateCreated +"','"+ user.dateUpdated +"')",
             (err, res) => {
                 console.log(err, res);
                 conn.end();
@@ -39,7 +43,6 @@ async function create(user) {
     } catch ( error ) {
         console.log( error );
     }
-    */
 }
 
 function update(id, params) {

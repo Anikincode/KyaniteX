@@ -1,5 +1,9 @@
-import { Client, Pool } from "pg";
+var pg = require('pg');
+var conString = "postgres://postgres:postgres@localhost:5432/kyanitex";
 
+var client = new pg.Client(conString);
+client.connect();
+/*
 let conn;
 
 const PGSQL_USER = 'postgres';
@@ -18,4 +22,6 @@ if (!conn) {
     });
 }
 
-export default conn;
+ */
+
+export default client;
