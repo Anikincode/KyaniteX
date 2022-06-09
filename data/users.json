@@ -196,5 +196,59 @@
         "id": 22,
         "dateCreated": "2022-06-08T15:18:24.695Z",
         "dateUpdated": "2022-06-08T15:18:24.695Z"
+    },
+    {
+        "firstName": "Nicholas300",
+        "lastName": "Goorwah300",
+        "username": "nick300@volterratechnology.com",
+        "hash": "$2a$10$/Qa4hZjusMzh4DFyVEaJWufADVGZG26zGuFPb/pXN7GqqSVRc2VKu",
+        "id": 23,
+        "dateCreated": "2022-06-08T15:41:11.224Z",
+        "dateUpdated": "2022-06-08T15:41:11.224Z"
+    },
+    {
+        "firstName": "Nicholas500",
+        "lastName": "Goorwah500",
+        "username": "nick500@volterratechnology.com",
+        "hash": "$2a$10$f86N.ebz.YyOHEUICoIJuOV1IPqrFFsMA.tcaaBNhsNe/NB5.kmfm",
+        "id": 24,
+        "dateCreated": "2022-06-08T15:46:04.775Z",
+        "dateUpdated": "2022-06-08T15:46:04.775Z"
+    },
+    {
+        "firstName": "Nicholas1",
+        "lastName": "Goorwah1",
+        "username": "nick1@volterratechnology.com",
+        "hash": "$2a$10$9B0j9dYD.ccqn1YuLyo6DeuwfPLK44Hz79Z9d0bNCVv0yhicpZVlq",
+        "id": 25,
+        "dateCreated": "2022-06-08T15:54:48.575Z",
+        "dateUpdated": "2022-06-08T15:54:48.575Z"
+    },
+    {
+        "firstName": "Nicholas86",
+        "lastName": "Goorwah86",
+        "username": "nick86@volterratechnology.com",
+        "hash": "$2a$10$E4AyVS1P56Qp.fgSbB6wuOsc/Z4nqKefr4bfH9T1E66vT3k/q/HSy",
+        "id": 26,
+        "dateCreated": "2022-06-08T15:57:01.805Z",
+        "dateUpdated": "2022-06-08T15:57:01.805Z"
+    },
+    {
+        "firstName": "Nicholas1000",
+        "lastName": "Goorwah1000",
+        "username": "nick1000@volterratechnology.com",
+        "hash": "$2a$10$Jp.YKqTYaldtNFKTZPErTuRn6cnDFbsXSN/U4GTYklrJVQcAb1/rG",
+        "id": 27,
+        "dateCreated": "2022-06-08T16:38:36.180Z",
+        "dateUpdated": "2022-06-08T16:38:36.180Z"
+    },
+    {
+        "firstName": "Pat3",
+        "lastName": "Sajack3",
+        "username": "pat.sajack3@volterratechnology.com",
+        "hash": "$2a$10$awHQu9OBaaH0fbBNNEPfE.HK9PCTZvxdObnnZixJnDkfMQiFnDg6K",
+        "id": 28,
+        "dateCreated": "2022-06-09T09:13:23.310Z",
+        "dateUpdated": "2022-06-09T09:13:23.310Z"
     }
 ]

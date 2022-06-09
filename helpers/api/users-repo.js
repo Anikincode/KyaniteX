@@ -4,6 +4,20 @@ import pg from "pg";
 
 const fs = require('fs');
 
+import getConfig from 'next/config';
+
+const { serverRuntimeConfig } = getConfig();
+const dotenv = require('dotenv');
+dotenv.config();
+
+const PGSQL_USER = process.env.PGSQL_USER;
+const PGSQL_PASSWORD = process.env.PGSQL_PASSWORD;
+const PGSQL_HOST = process.env.PGSQL_HOST;
+const PGSQL_PORT = process.env.PGSQL_PORT;
+const PGSQL_DATABASE = process.env.PGSQL_DATABASE;
+var conString = "postgres://postgres:postgres@localhost:5432/kyanitex";
+//var conString = "postgres://"+ PGSQL_USER +":"+ PGSQL_PASSWORD +"@"+ PGSQL_HOST +":"+ PGSQL_PORT +"/"+ PGSQL_DATABASE;
+
 // users in JSON file for simplicity, store in a db for production applications
 let users = require('data/users.json');
 
@@ -28,7 +42,6 @@ async function create(user) {
     users.push(user);
     saveData();
 
-    var conString = "postgres://postgres:postgres@localhost:5432/kyanitex";
     var client = new pg.Client(conString);
     client.connect();
     try {
@@ -36,7 +49,7 @@ async function create(user) {
             "INSERT INTO users(firstname, lastname, username, hash, id, datecreated, dateupdated)VALUES(" + "'"+ user.firstName + "','" + user.lastName +"','"+ user.username +"','"+ user.hash +"' ,'"+ user.id +"','"+ user.dateCreated +"','"+ user.dateUpdated +"')",
             (err, res) => {
                 console.log(err, res);
-                conn.end();
+                //conn.end();
             }
         );
         console.log( "Result",result );
@@ -46,6 +59,7 @@ async function create(user) {
 }
 
 function update(id, params) {
+
     const user = users.find(x => x.id.toString() === id.toString());
 
     // set date updated
@@ -54,6 +68,20 @@ function update(id, params) {
     // update and save
     Object.assign(user, params);
     saveData();
+    var client = new pg.Client(conString);
+    client.connect();
+    try {
+        client.query(
+            "UPDATE users SET firstname =" + "'" + user.firstName + "',  lastname= '" + user.lastName + "', username= + '" + user.username + "', hash= '" + user.hash + ", dateupdated='" + user.dateUpdated + "') FROM users WHERE( id= '"+ user.id +"')",
+            (err, res) => {
+                console.log(err, res);
+                //conn.end();
+            }
+        );
+        console.log( "Result", res );
+    } catch ( error ) {
+        console.log( error );
+    }
 }
 
 // prefixed with underscore '_' because 'delete' is a reserved word in javascript

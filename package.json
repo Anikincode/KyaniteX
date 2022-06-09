@@ -12,6 +12,7 @@
         "@hookform/resolvers": "^2.7.1",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
         "express-jwt": "^6.1.0",
         "fs": "0.0.1-security",
         "fs-extra": "^10.1.0",
