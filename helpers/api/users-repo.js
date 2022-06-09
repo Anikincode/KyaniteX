@@ -72,13 +72,13 @@ function update(id, params) {
     client.connect();
     try {
         client.query(
-            "UPDATE users SET firstname =" + "'" + user.firstName + "',  lastname= '" + user.lastName + "', username= + '" + user.username + "', hash= '" + user.hash + ", dateupdated='" + user.dateUpdated + "') FROM users WHERE( id= '"+ user.id +"')",
+            "UPDATE users SET firstname = " + "'" + user.firstName + "',  lastname= '" + user.lastName + "', username= '" + user.username + "', hash= '" + user.hash + "', dateupdated= '" + user.dateUpdated + "' WHERE id = '" + user.id + "';",
             (err, res) => {
                 console.log(err, res);
                 //conn.end();
             }
         );
-        console.log( "Result", res );
+        console.log( "Result", result );
     } catch ( error ) {
         console.log( error );
     }
