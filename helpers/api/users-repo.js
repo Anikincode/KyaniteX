@@ -7,16 +7,8 @@ const fs = require('fs');
 import getConfig from 'next/config';
 
 const { serverRuntimeConfig } = getConfig();
-const dotenv = require('dotenv');
-dotenv.config();
 
-const PGSQL_USER = process.env.PGSQL_USER;
-const PGSQL_PASSWORD = process.env.PGSQL_PASSWORD;
-const PGSQL_HOST = process.env.PGSQL_HOST;
-const PGSQL_PORT = process.env.PGSQL_PORT;
-const PGSQL_DATABASE = process.env.PGSQL_DATABASE;
-var conString = "postgres://postgres:postgres@localhost:5432/kyanitex";
-//var conString = "postgres://"+ PGSQL_USER +":"+ PGSQL_PASSWORD +"@"+ PGSQL_HOST +":"+ PGSQL_PORT +"/"+ PGSQL_DATABASE;
+var conString = "postgres://"+ serverRuntimeConfig.PGSQL_USER +":"+ serverRuntimeConfig.PGSQL_PASSWORD +"@"+ serverRuntimeConfig.PGSQL_HOST +":"+ serverRuntimeConfig.PGSQL_PORT +"/"+ serverRuntimeConfig.PGSQL_DATABASE;
 
 // users in JSON file for simplicity, store in a db for production applications
 let users = require('data/users.json');
