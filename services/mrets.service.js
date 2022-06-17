@@ -6,12 +6,16 @@ import { fetchMrets } from 'helpers/fetch-mrets';
 
 const { publicRuntimeConfig } = getConfig();
 const mretUrl = `${publicRuntimeConfig.mretUrl}/v1/public/rec/accounts`;
+const mretOrganizations = `${publicRuntimeConfig.mretUrl}/v1/public/rec/organizations`;
+const mretContacts = `${publicRuntimeConfig.mretUrl}/v1/public/rec/contacts`;
 const mretSubject = new BehaviorSubject(process.browser);
 
 export const mretsService = {
     mret: mretSubject.asObservable(),
         get mretValue () { return mretSubject.value },
     createAccount,
+    getOrganizationList,
+    getContact,
     logout
 };
 
@@ -27,11 +31,34 @@ function createAccount(user) {
     })
         .then(account => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
-            mretSubject.next(account)
+            mretSubject.next(account);
             localStorage.setItem('mret_account', JSON.stringify(account));
             return account;
         });
 }
+
+function getOrganizationList() {
+    return fetchMrets.get(`${mretOrganizations}`)
+        .then(organizations => {
+            // publish user to subscribers and store in local storage to stay logged in between page refreshes
+            mretSubject.next(organizations);
+            localStorage.setItem('organizations', JSON.stringify(organizations));
+            return organizations;
+        });
+}
+
+function getContact(org) {
+    var org = localStorage.getItem('organizations');
+    var id = JSON.parse(org);
+    fetchMrets.get(`${mretOrganizations}/`+ id + '/contact')
+        .then(contact => {
+            // publish user to subscribers and store in local storage to stay logged in between page refreshes
+            mretSubject.next(contact);
+            localStorage.setItem('contact', JSON.stringify(contact));
+            return contact;
+        });
+}
+
 /*
 function getAccount() {
     const account = localStorage.getItem('mret_account');

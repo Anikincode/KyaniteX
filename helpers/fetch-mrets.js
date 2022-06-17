@@ -14,7 +14,7 @@ export const fetchMrets = {
 function get(url) {
     const requestOptions = {
         method: 'GET',
-        headers: authHeader(url)
+        headers: {'Content-Type': 'application/vnd.api+json','X-Api-Key':'rkQVa8X1ra3jkF6opuNz7VVK', ...authHeader(url) },
     };
     return fetch(url, requestOptions).then(handleResponse);
 }
@@ -68,9 +68,9 @@ function handleResponse(response) {
         const data = text && JSON.parse(text);
 
         if (!response.ok) {
-            if ([401, 403].includes(response.status) && mretsService.mretValue) {
+            if ([401, 403].includes(response.status) && userService.userValue) {
                 // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-                mretsService.logout();
+               // userService.logout();
             }
 
             const error = (data && data.message) || response.statusText;

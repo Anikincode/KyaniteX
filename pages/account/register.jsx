@@ -37,7 +37,7 @@ function Register() {
          userService.register(user)
             .then(() => {
                 alertService.success('Registration successful', { keepAfterRouteChange: true });
-                // usersRepo.create(user);
+                router.push("/account/login");
             })
             .catch(alertService.error);
 
